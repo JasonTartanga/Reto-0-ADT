@@ -6,6 +6,8 @@
 package modelo;
 
 import clases.Enunciado;
+import clases.UnidadDidactica;
+import excepciones.ErrCrear;
 import java.util.List;
 
 /**
@@ -21,6 +23,11 @@ public class ImplementacionFich implements DAO {
 
     @Override
     public List<Enunciado> listarEnunciados() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void crearUnidad(UnidadDidactica uni) throws ErrCrear {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

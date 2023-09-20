@@ -1,4 +1,4 @@
-/*
+        /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,6 +7,7 @@ package modelo;
 
 import clases.Dificultad;
 import clases.Enunciado;
+import clases.UnidadDidactica;
 import excepciones.ErrConsultar;
 import excepciones.ErrCrear;
 import java.sql.Connection;
@@ -17,6 +18,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +30,7 @@ public class ImplementacionBD implements DAO {
     private Connection con = null;
     private PreparedStatement stmt;
 
+    private final String INSERT_UNIDAD_DIDACTICA = "INSERT INTO unidad (id, acronimo, titulo, evaluacion, descripcion) VALUES ( ?, ?, ?, ?,?)";
     private final String CREAR_ENUNCIADO = "INSERT INTO enunciado VALUES (?, ?, ?, ?, ?)";
     private final String LISTAR_ENUNCIADOS = "SELECT * FROM enunciado";
 
@@ -55,6 +59,30 @@ public class ImplementacionBD implements DAO {
         }
     }
 
+    /**
+     *
+     * @param uni
+     * @throws ErrCrear
+     */
+    @Override
+ public void crearUnidad(UnidadDidactica uni) throws ErrCrear{
+           this.abrirConexion();
+           
+        try {
+            stmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(INSERT_UNIDAD_DIDACTICA);
+            
+            stmt.setInt(1, uni.getId());
+            stmt.setString(2, uni.getAcronimo());
+            stmt.setString(3, uni.getTitulo());
+            stmt.setString(4, uni.getEvaluacion());
+            stmt.setString(5, uni.getDescripcion());
+            stmt.executeUpdate();
+           
+        } catch (SQLException ex) {
+            throw new ErrCrear("Error a la hora de crear una unidad didactica");
+        }this.cerrarConexion();
+           
+           }
     @Override
     public void crearEnunciado(Enunciado enun) throws ErrCrear {
         this.abrirConexion();
@@ -107,5 +135,7 @@ public class ImplementacionBD implements DAO {
         this.cerrarConexion();
         return enunciados;
     }
+
+    
 
 }

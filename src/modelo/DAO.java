@@ -6,6 +6,7 @@
 package modelo;
 
 import clases.Enunciado;
+import clases.UnidadDidactica;
 import excepciones.ErrConsultar;
 import excepciones.ErrCrear;
 import java.util.List;
@@ -17,6 +18,10 @@ import java.util.List;
 public interface DAO {
 
     public void crearEnunciado(Enunciado enun) throws ErrCrear;
-
+     
+    public void crearUnidad(UnidadDidactica uni) throws ErrCrear;
+    
     public List<Enunciado> listarEnunciados() throws ErrConsultar;
+
+    
 }

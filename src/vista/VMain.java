@@ -142,7 +142,9 @@ public class VMain extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearEnunciadoActionPerformed
 
     private void btnCrearUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUnidadActionPerformed
-        // TODO add your handling code here:
+       this.dispose();
+        UnidadDidacticaV crearUnidad = new UnidadDidacticaV(this, true, controlador);
+        crearUnidad.setVisible(true);
     }//GEN-LAST:event_btnCrearUnidadActionPerformed
 
     private void btnCrearConvocatoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearConvocatoriaActionPerformed
