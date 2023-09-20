@@ -5,10 +5,20 @@
  */
 package controlador;
 
+import clases.Enunciado;
+import modelo.Dao;
+import modelo.Factoria;
+
 /**
  *
- * @author Ian.
+ * @author Jason.
  */
 public class Controlador {
-    
+
+    Dao daoBD = Factoria.getImplementacionBD();
+    Dao daoFich = Factoria.getImplementacionFich();
+
+    public void crearEnunciado(Enunciado enun) {
+        daoBD.crearEnunciado(enun);
+    }
 }

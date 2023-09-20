@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import clases.Enunciado;
 import clases.UnidadDidactica;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -12,7 +13,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -85,8 +89,40 @@ public void abrirConexion(){
         }this.closeConnection();
            
            }
-   public void visualizarEnunciado(){
+
+    /**
+     *
+     * @return
+     */
+   public List<Enunciado> visualizarEnunciado(){
        this.abrirConexion();
+       Enunciado enun;
+       List<Enunciado> idEnun = new ArrayList<>();
+       ResultSet rs;
+       
+        try {
+            stmt = (PreparedStatement) con.prepareStatement(SELECT_ENUNCIADO);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                    enun = new Enunciado();
+                    enun.setId(rs.getInt("id"));
+                    enun.setDescripcion(rs.getString("descripcion"));
+                    
+                    enun.setDisponible(rs.getBoolean("disponible"));
+                    enun.setRuta(rs.getString("ruta"));
+                    idEnun.add(enun);
+                    
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }this.closeConnection();
+        return idEnun;
        
    }
+
+    @Override
+    public void crearEnunciado(Enunciado enun) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

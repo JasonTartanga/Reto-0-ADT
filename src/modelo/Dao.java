@@ -5,7 +5,9 @@
  */
 package modelo;
 
+import clases.Enunciado;
 import clases.UnidadDidactica;
+import java.util.List;
 
 /**
  *
@@ -14,5 +16,6 @@ import clases.UnidadDidactica;
 public interface Dao {
     
     public void crearUnidad(UnidadDidactica uni);
-    public void visualizarEnunciado();
+    public List<Enunciado> visualizarEnunciado();
+    public void crearEnunciado(Enunciado enun);
 }
