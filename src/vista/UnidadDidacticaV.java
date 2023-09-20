@@ -228,6 +228,7 @@ public class UnidadDidacticaV extends javax.swing.JDialog {
 
     private void btnEnviar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviar1ActionPerformed
         boolean creado = false;
+        
         UnidadDidactica uni;
         Dao bd = new DaoImplementacion();
         uni = new UnidadDidactica();

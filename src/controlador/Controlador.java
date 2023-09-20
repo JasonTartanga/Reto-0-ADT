@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
-
-import clases.UnidadDidactica;
+package controlador;
 
 /**
  *
- * @author 2dam
+ * @author Ian.
  */
-public interface Dao {
+public class Controlador {
     
-    public void crearUnidad(UnidadDidactica uni);
-    public void visualizarEnunciado();
 }

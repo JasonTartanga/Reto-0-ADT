@@ -28,6 +28,7 @@ public class DaoImplementacion implements Dao{
     private PreparedStatement stmt;
     
     private final String INSERT_UNIDAD_DIDACTICA = "INSERT INTO unidad (id, acronimo, titulo, evaluacion, descripcion) VALUES ( ?, ?, ?, ?,?)";
+    private final String SELECT_ENUNCIADO = "SELECT * FROM enunciado;";
     
 public void abrirConexion(){
     
@@ -85,6 +86,7 @@ public void abrirConexion(){
            
            }
    public void visualizarEnunciado(){
+       this.abrirConexion();
        
    }
 }
