@@ -5,7 +5,7 @@
  */
 package controlador;
 
-import vista.CrearEnunciado;
+import vista.VMain;
 
 /**
  *
@@ -14,8 +14,7 @@ import vista.CrearEnunciado;
 public class App {
 
     public static void main(String[] args) {
-        Controlador con = new Controlador();
-        CrearEnunciado ce = new CrearEnunciado(null, true, con);
-        ce.setVisible(true);
+        VMain vMain = new VMain(new Controlador());
+        vMain.setVisible(true);
     }
 }

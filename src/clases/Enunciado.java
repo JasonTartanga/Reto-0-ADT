@@ -57,4 +57,11 @@ public class Enunciado {
         this.ruta = ruta;
     }
 
+    public String getDatos() {
+        return "ID:\t\t" + id + "\n"
+                + "Descripcion:\t\t" + descripcion + "\n"
+                + "Nivel:\t\t" + nivel + "\n"
+                + "Disponible:\t\t" + disponible + "\n"
+                + "Ruta:\t\t" + ruta;
+    }
 }

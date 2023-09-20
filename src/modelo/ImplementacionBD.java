@@ -5,12 +5,17 @@
  */
 package modelo;
 
+import clases.Dificultad;
 import clases.Enunciado;
+import excepciones.ErrConsultar;
+import excepciones.ErrCrear;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -23,6 +28,7 @@ public class ImplementacionBD implements DAO {
     private PreparedStatement stmt;
 
     private final String CREAR_ENUNCIADO = "INSERT INTO enunciado VALUES (?, ?, ?, ?, ?)";
+    private final String LISTAR_ENUNCIADOS = "SELECT * FROM enunciado";
 
     public void abrirConexion() {
         try {
@@ -50,7 +56,7 @@ public class ImplementacionBD implements DAO {
     }
 
     @Override
-    public void crearEnunciado(Enunciado enun) {
+    public void crearEnunciado(Enunciado enun) throws ErrCrear {
         this.abrirConexion();
         try {
             stmt = con.prepareStatement(CREAR_ENUNCIADO);
@@ -63,9 +69,43 @@ public class ImplementacionBD implements DAO {
             stmt.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new ErrCrear("Error a la hora de crear un enunciado");
         }
         this.cerrarConexion();
+    }
+
+    @Override
+    public List<Enunciado> listarEnunciados() throws ErrConsultar {
+        List<Enunciado> enunciados = new ArrayList<>();
+        this.abrirConexion();
+        try {
+            stmt = con.prepareStatement(LISTAR_ENUNCIADOS);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Enunciado e = new Enunciado();
+                e.setId(rs.getInt("id"));
+                e.setDescripcion(rs.getString("descripcion"));
+                e.setDisponible(rs.getBoolean("disponible"));
+                e.setRuta(rs.getString("ruta"));
+
+                if (rs.getString("nivel").equalsIgnoreCase("alta")) {
+                    e.setNivel(Dificultad.ALTA);
+
+                } else if (rs.getString("nivel").equalsIgnoreCase("media")) {
+                    e.setNivel(Dificultad.MEDIA);
+
+                } else {
+                    e.setNivel(Dificultad.BAJA);
+                }
+
+                enunciados.add(e);
+            }
+        } catch (SQLException e) {
+            throw new ErrConsultar("Error a la hora de consultar un error");
+        }
+        this.cerrarConexion();
+        return enunciados;
     }
 
 }
