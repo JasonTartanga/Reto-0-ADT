@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo;
 
 import clases.Dificultad;
@@ -19,6 +14,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
+ * Esta calse es la implementacion de la logica de negocio orientada a la base
+ * de datos.
  *
  * @author Jason.
  */
@@ -30,6 +27,10 @@ public class ImplementacionBD implements DAO {
     private final String CREAR_ENUNCIADO = "INSERT INTO enunciado VALUES (?, ?, ?, ?, ?)";
     private final String LISTAR_ENUNCIADOS = "SELECT * FROM enunciado";
 
+    /**
+     * Este metodo abre una conexion con la base de datos mediante un archivo de
+     * configuracion .propeties.
+     */
     public void abrirConexion() {
         try {
             final String URL = ResourceBundle.getBundle("modelo.configBDA").getString("url");
@@ -42,6 +43,9 @@ public class ImplementacionBD implements DAO {
         }
     }
 
+    /**
+     * Este metodo cierra la conexion con la base de datos.
+     */
     public void cerrarConexion() {
         try {
             if (con != null) {
@@ -55,6 +59,13 @@ public class ImplementacionBD implements DAO {
         }
     }
 
+    /**
+     * Inserta un enunciado en la base de datos.
+     *
+     * @param enun el enunciado que se va a intrducir.
+     * @throws ErrCrear gestiona un error a la hora de insertar datos en la base
+     * de datos.
+     */
     @Override
     public void crearEnunciado(Enunciado enun) throws ErrCrear {
         this.abrirConexion();
@@ -74,6 +85,13 @@ public class ImplementacionBD implements DAO {
         this.cerrarConexion();
     }
 
+    /**
+     * Muestra todos los enunciados de la base de datos.
+     *
+     * @return todos los enunciados.
+     * @throws ErrConsultar gestiona un error a la hora de buscar datos en la
+     * base de datos.
+     */
     @Override
     public List<Enunciado> listarEnunciados() throws ErrConsultar {
         List<Enunciado> enunciados = new ArrayList<>();

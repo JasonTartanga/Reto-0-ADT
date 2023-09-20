@@ -60,7 +60,7 @@
                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="button1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnVisualizarEnunciado" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -82,7 +82,7 @@
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   <Component id="scroll" min="-2" pref="157" max="-2" attributes="0"/>
                   <EmptySpace pref="25" max="32767" attributes="0"/>
-                  <Component id="button1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnVisualizarEnunciado" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -148,7 +148,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="excepciones.Button" name="button1">
+        <Component class="excepciones.Button" name="btnVisualizarEnunciado">
           <Properties>
             <Property name="text" type="java.lang.String" value="Visualizar Enunciado"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -156,7 +156,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVisualizarEnunciadoActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
