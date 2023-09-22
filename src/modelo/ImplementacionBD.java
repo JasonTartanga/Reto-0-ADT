@@ -69,14 +69,14 @@ public class ImplementacionBD implements DAO {
            this.abrirConexion();
            
         try {
-            stmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(INSERT_UNIDAD_DIDACTICA);
+            stmt = con.prepareStatement(INSERT_UNIDAD_DIDACTICA);
             
             stmt.setInt(1, uni.getId());
             stmt.setString(2, uni.getAcronimo());
             stmt.setString(3, uni.getTitulo());
             stmt.setString(4, uni.getEvaluacion());
             stmt.setString(5, uni.getDescripcion());
-            stmt.executeUpdate();
+            stmt.execute();
            
         } catch (SQLException ex) {
             throw new ErrCrear("Error a la hora de crear una unidad didactica");
