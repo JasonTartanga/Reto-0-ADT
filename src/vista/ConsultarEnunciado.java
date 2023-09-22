@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
 import clases.Enunciado;
@@ -18,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
+ * Esta ventana permite al usuario consultar y visualizar los Enuciados.
  *
  * @author Jason.
  */
@@ -27,7 +23,7 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
     private Controlador controlador;
 
     /**
-     * Creates new form ConsultarEnunciado
+     * Crea la ventana de ConsularEnunciado.
      */
     public ConsultarEnunciado(java.awt.Frame parent, boolean modal, Controlador controlador) {
         super(parent, modal);
@@ -62,7 +58,7 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
         jSeparator = new javax.swing.JSeparator();
         scroll = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
-        button1 = new excepciones.Button();
+        btnVisualizarEnunciado = new excepciones.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -89,11 +85,11 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
         textArea.setRows(5);
         scroll.setViewportView(textArea);
 
-        button1.setText("Visualizar Enunciado");
-        button1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        button1.addActionListener(new java.awt.event.ActionListener() {
+        btnVisualizarEnunciado.setText("Visualizar Enunciado");
+        btnVisualizarEnunciado.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnVisualizarEnunciado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                btnVisualizarEnunciadoActionPerformed(evt);
             }
         });
 
@@ -115,7 +111,7 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
                             .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnVisualizarEnunciado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(102, 102, 102))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -132,7 +128,7 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
                 .addGap(25, 25, 25)
                 .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnVisualizarEnunciado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
 
@@ -151,11 +147,22 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Cuando se cambie el elemento del combobox muestra todos los datos del
+     * enunciado seleccionado.
+     *
+     * @param evt
+     */
     private void idComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_idComboBoxItemStateChanged
         textArea.setText(enunciados.get(idComboBox.getSelectedIndex()).getDatos());
     }//GEN-LAST:event_idComboBoxItemStateChanged
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+    /**
+     * Abre el documento que este en la ruta del enunciado seleccionado.
+     *
+     * @param evt
+     */
+    private void btnVisualizarEnunciadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarEnunciadoActionPerformed
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
             File archivo = new File(enunciados.get(idComboBox.getSelectedIndex()).getRuta());
@@ -172,10 +179,10 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
         } else {
             System.out.println("La apertura de archivos no es compatible en este sistema.");
         }
-    }//GEN-LAST:event_button1ActionPerformed
+    }//GEN-LAST:event_btnVisualizarEnunciadoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private excepciones.Button button1;
+    private excepciones.Button btnVisualizarEnunciado;
     private javax.swing.JComboBox<String> idComboBox;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator;

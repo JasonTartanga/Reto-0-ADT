@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
 import clases.Dificultad;
@@ -15,6 +10,7 @@ import javax.swing.JOptionPane;
 import jnafilechooser.api.JnaFileChooser;
 
 /**
+ * Esta ventana permite al usuario crear enunciados.
  *
  * @author Jason.
  */
@@ -24,7 +20,7 @@ public class CrearEnunciado extends javax.swing.JDialog {
     private String ruta = "";
 
     /**
-     * Creates new form CrearEnunciado
+     * Crea la ventana CrearEnunciado.
      */
     public CrearEnunciado(java.awt.Frame parent, boolean modal, Controlador con) {
         super(parent, modal);
@@ -178,6 +174,11 @@ public class CrearEnunciado extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Abre el explorador de archivos y permite elegir la ruta del enunciado.
+     *
+     * @param evt
+     */
     private void btnRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRutaActionPerformed
         JnaFileChooser ch = new JnaFileChooser();
         boolean action = ch.showOpenDialog(this);
@@ -188,6 +189,11 @@ public class CrearEnunciado extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnRutaActionPerformed
 
+    /**
+     * Limpia todos los campos de la ventana.
+     *
+     * @param evt
+     */
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         txtId.setText("");
         txtDescripcion.setText("");
@@ -197,6 +203,12 @@ public class CrearEnunciado extends javax.swing.JDialog {
         ruta = "";
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    /**
+     * Si todos los datos son correctos crea un enunciado y lo inserta en la
+     * base de datos.
+     *
+     * @param evt
+     */
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         if (this.validarDatos()) {
             try {
@@ -230,6 +242,11 @@ public class CrearEnunciado extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    /**
+     * Comprueba si todos los datos son validos o no.
+     *
+     * @return si los datos son validos o no.
+     */
     public boolean validarDatos() {
         boolean valido = true;
 
