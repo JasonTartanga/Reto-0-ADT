@@ -2,16 +2,16 @@ package modelo;
 
 import clases.Enunciado;
 import clases.UnidadDidactica;
-import excepciones.ErrConsultar;
 import excepciones.ErrCrear;
 import java.util.List;
 
 /**
- * Es la logica del negocio.
+ * Esta calse es la implementacion de la logica de negocio orientada a los
+ * ficheros.
  *
  * @author Jason.
  */
-public interface DAO {
+public class ImplementacionFich implements DAO {
 
     /**
      * Inserta un enunciado en la base de datos.
@@ -20,9 +20,10 @@ public interface DAO {
      * @throws ErrCrear gestiona un error a la hora de insertar datos en la base
      * de datos.
      */
-    public void crearEnunciado(Enunciado enun) throws ErrCrear;
-    
-    public void crearUnidad(UnidadDidactica uni) throws ErrCrear;
+    @Override
+    public void crearEnunciado(Enunciado enun) {
+
+    }
 
     /**
      * Muestra todos los enunciados de la base de datos.
@@ -31,5 +32,14 @@ public interface DAO {
      * @throws ErrConsultar gestiona un error a la hora de buscar datos en la
      * base de datos.
      */
-    public List<Enunciado> listarEnunciados() throws ErrConsultar;
+    @Override
+    public List<Enunciado> listarEnunciados() {
+        return null;
+    }
+
+    @Override
+    public void crearUnidad(UnidadDidactica uni) throws ErrCrear {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

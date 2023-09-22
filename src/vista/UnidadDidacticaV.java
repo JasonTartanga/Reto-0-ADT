@@ -6,9 +6,13 @@
 package vista;
 
 import clases.UnidadDidactica;
+import controlador.Controlador;
+import excepciones.ErrCrear;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import modelo.Dao;
-import modelo.DaoImplementacion;
+import modelo.DAO;
+import modelo.ImplementacionBD;
 
 /**
  *
@@ -16,12 +20,14 @@ import modelo.DaoImplementacion;
  */
 public class UnidadDidacticaV extends javax.swing.JDialog {
 
+    private Controlador con;
     /**
      * Creates new form UnidadDidactica
      */
-    public UnidadDidacticaV(java.awt.Frame parent, boolean modal) {
+    public UnidadDidacticaV(java.awt.Frame parent, boolean modal, Controlador con) {
         super(parent, modal);
         initComponents();
+        this.con = con;
     }
 
     /**
@@ -227,21 +233,26 @@ public class UnidadDidacticaV extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnEnviar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviar1ActionPerformed
-        boolean creado = false;
-        UnidadDidactica uni;
-        Dao bd = new DaoImplementacion();
-        uni = new UnidadDidactica();
-        uni.setId(Integer.parseInt(txtId.getText()));
-        uni.setAcronimo(txtAcronimo.getText());
-        uni.setTitulo(txtTitulo.getText());
-        uni.setEvaluacion(txtEvaluacion.getText());
-        uni.setDescripcion(txtDescripcion.getText());
-        bd.crearUnidad(uni);
+
+        try {
+          
+            UnidadDidactica uni;
+            uni = new UnidadDidactica();
+            uni.setId(Integer.parseInt(txtId.getText()));
+            uni.setAcronimo(txtAcronimo.getText());
+            uni.setTitulo(txtTitulo.getText());
+            uni.setEvaluacion(txtEvaluacion.getText());
+            uni.setDescripcion(txtDescripcion.getText());
+            con.crearUnidad(uni);
+            btnLimpiarActionPerformed(evt);
+            
+        } catch (ErrCrear ex) {
+            Logger.getLogger(UnidadDidacticaV.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         JOptionPane.showMessageDialog(this, "La unidad didactica ha sido creada con exito");
         
-        creado = true;
-        this.dispose();
+      
     }//GEN-LAST:event_btnEnviar1ActionPerformed
 
     
