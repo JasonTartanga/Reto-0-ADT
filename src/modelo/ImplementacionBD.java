@@ -1,13 +1,6 @@
-<<<<<<< HEAD
-        /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-=======
->>>>>>> 9c91b61661709244187720d2bd1ee4b82d219c09
 package modelo;
 
+import clases.Convocatoria;
 import clases.Dificultad;
 import clases.Enunciado;
 import clases.UnidadDidactica;
@@ -21,8 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Esta calse es la implementacion de la logica de negocio orientada a la base
@@ -38,6 +29,9 @@ public class ImplementacionBD implements DAO {
     private final String INSERT_UNIDAD_DIDACTICA = "INSERT INTO unidad (id, acronimo, titulo, evaluacion, descripcion) VALUES ( ?, ?, ?, ?,?)";
     private final String CREAR_ENUNCIADO = "INSERT INTO enunciado VALUES (?, ?, ?, ?, ?)";
     private final String LISTAR_ENUNCIADOS = "SELECT * FROM enunciado";
+    private final String LISTAR_UNIDADES_DIDACTICAS = "SELECT * FROM unidad";
+
+    private final String ASIGNAR_UNIDAD = "INSERT INTO unidad_enunciado VALUES (?, ?)";
 
     /**
      * Este metodo abre una conexion con la base de datos mediante un archivo de
@@ -71,39 +65,36 @@ public class ImplementacionBD implements DAO {
         }
     }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @param uni
-     * @throws ErrCrear
-     */
     @Override
- public void crearUnidad(UnidadDidactica uni) throws ErrCrear{
-           this.abrirConexion();
-           
+    public void crearUnidad(UnidadDidactica uni) throws ErrCrear {
+        this.abrirConexion();
+
         try {
             stmt = con.prepareStatement(INSERT_UNIDAD_DIDACTICA);
-            
+
             stmt.setInt(1, uni.getId());
             stmt.setString(2, uni.getAcronimo());
             stmt.setString(3, uni.getTitulo());
             stmt.setString(4, uni.getEvaluacion());
             stmt.setString(5, uni.getDescripcion());
+            System.out.println(stmt);
             stmt.execute();
-           
+
         } catch (SQLException ex) {
-            throw new ErrCrear("Error a la hora de crear una unidad didactica");
-        }this.cerrarConexion();
-           
-           }
-=======
+            ex.printStackTrace();
+            throw new ErrCrear("UnidadDidactica");
+        }
+        this.cerrarConexion();
+
+    }
+
+    /**
      * Inserta un enunciado en la base de datos.
      *
      * @param enun el enunciado que se va a intrducir.
      * @throws ErrCrear gestiona un error a la hora de insertar datos en la base
      * de datos.
      */
->>>>>>> 9c91b61661709244187720d2bd1ee4b82d219c09
     @Override
     public void crearEnunciado(Enunciado enun) throws ErrCrear {
         this.abrirConexion();
@@ -118,7 +109,7 @@ public class ImplementacionBD implements DAO {
             stmt.execute();
 
         } catch (SQLException e) {
-            throw new ErrCrear("Error a la hora de crear un enunciado");
+            throw new ErrCrear("Enunciado");
         }
         this.cerrarConexion();
     }
@@ -158,12 +149,68 @@ public class ImplementacionBD implements DAO {
                 enunciados.add(e);
             }
         } catch (SQLException e) {
-            throw new ErrConsultar("Error a la hora de consultar un error");
+            throw new ErrConsultar("Enunciado");
         }
         this.cerrarConexion();
         return enunciados;
     }
 
-    
+    @Override
+    public void crearConvocatoria(Convocatoria con) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Convocatoria consultarConvocatoria(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Convocatoria> listarConvocatorias() throws ErrConsultar {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<UnidadDidactica> listarUnidades() throws ErrConsultar {
+        List<UnidadDidactica> unidades = new ArrayList<>();
+        this.abrirConexion();
+        try {
+            stmt = con.prepareStatement(LISTAR_UNIDADES_DIDACTICAS);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                UnidadDidactica u = new UnidadDidactica();
+                u.setId(rs.getInt("id"));
+                u.setAcronimo(rs.getString("acronimo"));
+                u.setTitulo(rs.getString("titulo"));
+                u.setEvaluacion(rs.getString("evaluacion"));
+                u.setDescripcion(rs.getString("descripcion"));
+                unidades.add(u);
+            }
+        } catch (SQLException e) {
+            throw new ErrConsultar("Unidad");
+        }
+        this.cerrarConexion();
+        return unidades;
+    }
+
+    @Override
+    public void asignarUnidad(int unidad, int enunciado) throws ErrCrear {
+        this.abrirConexion();
+        try {
+            stmt = con.prepareStatement(ASIGNAR_UNIDAD);
+            stmt.setInt(1, unidad);
+            stmt.setInt(2, enunciado);
+            stmt.execute();
+        } catch (SQLException e) {
+            throw new ErrCrear("Unidad");
+        }
+        this.cerrarConexion();
+    }
+
+    @Override
+    public void asignarEnunciado(int enunciado, int convocatoria) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

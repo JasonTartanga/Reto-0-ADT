@@ -1,25 +1,30 @@
 package excepciones;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jason.
  */
 public class ErrConsultar extends Exception {
 
-    /**
-     * Creates a new instance of <code>ErrConsultar</code> without detail
-     * message.
-     */
-    public ErrConsultar() {
+    private String mensaje;
+
+    public ErrConsultar(String causa) {
+        switch (causa) {
+            case "Convocatoria":
+                mensaje = "Ha ocurrido un error a la hora de consultar datos sobre convocatorias";
+                break;
+            case "Enunciado":
+                mensaje = "Ha ocurrido un error a la hora de consultar datos sobre enunciados";
+                break;
+            case "UnidadDidactica":
+                mensaje = "Ha ocurrido un error a la hora de consultar datos sobre unidades didacticas";
+                break;
+        }
     }
 
-    /**
-     * Constructs an instance of <code>ErrConsultar</code> with the specified
-     * detail message.
-     *
-     * @param msg the detail message.
-     */
-    public ErrConsultar(String msg) {
-        super(msg);
+    public void mostrarError() {
+        JOptionPane.showMessageDialog(null, mensaje);
     }
 }

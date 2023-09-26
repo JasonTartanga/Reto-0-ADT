@@ -5,27 +5,32 @@
  */
 package excepciones;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jason.
  */
 public class ErrCrear extends Exception {
 
-    /**
-     * Creates a new instance of <code>ErrConsultar</code> without detail
-     * message.
-     */
-    public ErrCrear() {
+    private String mensaje;
+
+    public ErrCrear(String causa) {
+        switch (causa) {
+            case "Convocatoria":
+                mensaje = "Ha ocurrido un error a la hora de crear una convocatoria";
+                break;
+            case "Enunciado":
+                mensaje = "Ha ocurrido un error a la hora de crear un enunciado";
+                break;
+            case "UnidadDidactica":
+                mensaje = "Ha ocurrido un error a la hora de crear una unidad didactica";
+                break;
+        }
     }
 
-    /**
-     * Constructs an instance of <code>ErrConsultar</code> with the specified
-     * detail message.
-     *
-     * @param msg the detail message.
-     */
-    public ErrCrear(String msg) {
-        super(msg);
+    public void mostrarError() {
+        JOptionPane.showMessageDialog(null, mensaje);
     }
 
 }

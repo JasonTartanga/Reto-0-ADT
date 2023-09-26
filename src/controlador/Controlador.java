@@ -1,5 +1,6 @@
 package controlador;
 
+import clases.Convocatoria;
 import clases.Enunciado;
 import clases.UnidadDidactica;
 import excepciones.ErrConsultar;
@@ -21,24 +22,31 @@ public class Controlador {
      */
     private DAO daoBD = Factoria.getImplementacionBD();
 
-<<<<<<< HEAD
-    public void crearUnidad(UnidadDidactica uni) throws ErrCrear{
-        daoBD.crearUnidad(uni);
-    }
-=======
     /**
      * Implementacion de la logica del negocio orientada a los ficheros.
      */
     private DAO daoFich = Factoria.getImplementacionFich();
 
+    public Convocatoria consultarConvocatoria(String id) throws ErrConsultar {
+        return daoFich.consultarConvocatoria(id);
+    }
+
+    public void crearConvocatoria(Convocatoria conv) throws ErrCrear {
+        daoFich.crearConvocatoria(conv);
+    }
+
     /**
      * Introduce un enunciado en la base de datos.
      *
+     * @param uni
      * @param enun el enunciado que se quiere insertar.
      * @throws ErrCrear gestiona un error a la hora de insertar datos en la base
      * de datos.
      */
->>>>>>> 9c91b61661709244187720d2bd1ee4b82d219c09
+    public void crearUnidad(UnidadDidactica uni) throws ErrCrear {
+        daoBD.crearUnidad(uni);
+    }
+
     public void crearEnunciado(Enunciado enun) throws ErrCrear {
         daoBD.crearEnunciado(enun);
     }
@@ -52,5 +60,17 @@ public class Controlador {
      */
     public List<Enunciado> listarEnunciados() throws ErrConsultar {
         return daoBD.listarEnunciados();
+    }
+
+    public List<Convocatoria> listarConvocatorias() throws ErrConsultar {
+        return daoFich.listarConvocatorias();
+    }
+
+    public List<UnidadDidactica> listarUnidades() throws ErrConsultar {
+        return daoBD.listarUnidades();
+    }
+
+    public void asignarUnidad(int unidad, int enunciado) throws ErrCrear {
+        daoBD.asignarUnidad(unidad, enunciado);
     }
 }
