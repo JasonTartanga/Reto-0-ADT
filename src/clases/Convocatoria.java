@@ -2,24 +2,28 @@ package clases;
 
 import java.io.Serializable;
 
+/**
+ * Esta clase gurada temporalemente la informacion de una convocatoria.
+ *
+ * @author Jason.
+ */
 public class Convocatoria implements Serializable {
 
-    private int id;
     private String convocatoria;
     private String descripcion;
     private String fecha;
     private String curso;
+    private int idEnunciado;
 
-    public int getId() {
-        return id;
+    public int getIdEnunciado() {
+        return idEnunciado;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdEnunciado(int idEnunciado) {
+        this.idEnunciado = idEnunciado;
     }
 
     public String getConvocatoria() {
-
         return convocatoria;
     }
 
@@ -53,7 +57,7 @@ public class Convocatoria implements Serializable {
 
     @Override
     public String toString() {
-        return "Convocatoria{" + "id=" + id + ", convocatoria=" + convocatoria + ", descripcion=" + descripcion + ", fecha=" + fecha + ", curso=" + curso + '}';
+        return "Convocatoria{" + "idEnunciado=" + idEnunciado + ", convocatoria=" + convocatoria + ", descripcion=" + descripcion + ", fecha=" + fecha + ", curso=" + curso + '}';
     }
 
 }

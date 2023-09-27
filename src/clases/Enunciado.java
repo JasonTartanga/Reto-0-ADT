@@ -1,35 +1,20 @@
 package clases;
 
 /**
- * Esta clase guarda la informacion de los enunciados.
+ * Esta clase guarda temporalmente la informacion de los enunciados.
  *
  * @author Jason.
  */
 public class Enunciado {
 
-    /**
-     * El identificador unico del enunciado.
-     */
     private int id;
 
-    /**
-     * La descripcion del enunciado.
-     */
     private String descripcion;
-    /**
-     * La dificultad que tiene el enunciado. Es un enum con tres posibilidades
-     * (Alta, Media y Baja).
-     */
+
     private Dificultad nivel;
 
-    /**
-     * Si esta dispionible o no.
-     */
     private boolean disponible;
 
-    /**
-     * La ruta en la que esta guardada el enunciado.
-     */
     private String ruta;
 
     public int getId() {
@@ -72,11 +57,6 @@ public class Enunciado {
         this.ruta = ruta;
     }
 
-    /**
-     * Muestra todos los datos del enunciado.
-     *
-     * @return todos los datos del enunciado.
-     */
     public String getDatos() {
         return "ID:\t\t" + id + "\n"
                 + "Descripcion:\t\t" + descripcion + "\n"

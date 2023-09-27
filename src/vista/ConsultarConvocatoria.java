@@ -3,20 +3,32 @@ package vista;
 import clases.Convocatoria;
 import controlador.Controlador;
 import excepciones.ErrConsultar;
+import excepciones.ErrExtra;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
+/**
+ * Esta ventana permite al usuario buscar los datos de una convocatoria.
+ *
+ * @author Jason.
+ */
 public class ConsultarConvocatoria extends javax.swing.JDialog {
 
-//    public ConsultarConvocatoria() {
-//        initComponents();
-//    }
     private Controlador controlador;
 
     private List<Convocatoria> convocatorias;
 
-    public ConsultarConvocatoria(JFrame parent, boolean b, Controlador controlador) {
-        super(parent, b);
+    /**
+     * Crea la ventana ConsultarConvocatoria.
+     *
+     * @param parent la ventana padre.
+     * @param modal si es modal.
+     * @param controlador el controlador de la aplicacion.
+     */
+    public ConsultarConvocatoria(JFrame parent, boolean modal, Controlador controlador) {
+        super(parent, modal);
         initComponents();
 
         this.controlador = controlador;
@@ -34,10 +46,12 @@ public class ConsultarConvocatoria extends javax.swing.JDialog {
             convocatorias = controlador.listarConvocatorias();
 
             for (Convocatoria conv : convocatorias) {
-                cbIds.addItem(conv.getId() + "");
+                cbIds.addItem(conv.getConvocatoria() + "");
             }
 
         } catch (ErrConsultar ex) {
+            ex.mostrarError();
+        } catch (ErrExtra ex) {
             ex.mostrarError();
         }
     }
@@ -59,12 +73,13 @@ public class ConsultarConvocatoria extends javax.swing.JDialog {
         lblCurso = new javax.swing.JLabel();
         txtCurso = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        btnVolver = new excepciones.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         fondo.setBackground(new java.awt.Color(49, 51, 53));
 
-        lblTitulo.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(227, 227, 227));
         lblTitulo.setText("CONSULTAR CONVOCATORIA");
 
@@ -96,39 +111,54 @@ public class ConsultarConvocatoria extends javax.swing.JDialog {
 
         jSeparator1.setForeground(new java.awt.Color(227, 227, 227));
 
+        btnVolver.setText("<---");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fondoLayout.createSequentialGroup()
-                        .addComponent(lblId)
-                        .addGap(88, 88, 88)
-                        .addComponent(cbIds, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(37, 37, 37)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(fondoLayout.createSequentialGroup()
+                                .addComponent(lblId)
+                                .addGap(88, 88, 88)
+                                .addComponent(cbIds, 0, 187, Short.MAX_VALUE))
+                            .addGroup(fondoLayout.createSequentialGroup()
+                                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblConvocatoria)
+                                    .addComponent(lblDescripcion)
+                                    .addComponent(lblCurso)
+                                    .addComponent(lblFecha))
+                                .addGap(18, 18, 18)
+                                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCurso)
+                                    .addComponent(txtFecha)
+                                    .addComponent(txtDescripcion)
+                                    .addComponent(txtConvocatoria)))
+                            .addComponent(jSeparator1)))
                     .addGroup(fondoLayout.createSequentialGroup()
-                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblConvocatoria)
-                            .addComponent(lblDescripcion)
-                            .addComponent(lblCurso)
-                            .addComponent(lblFecha))
-                        .addGap(18, 18, 18)
-                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCurso)
-                            .addComponent(txtFecha)
-                            .addComponent(txtDescripcion)
-                            .addComponent(txtConvocatoria)))
-                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator1))
-                .addContainerGap(25, Short.MAX_VALUE))
+                        .addGap(21, 21, 21)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblTitulo)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(lblTitulo)
-                .addGap(50, 50, 50)
+                .addGap(31, 31, 31)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTitulo))
+                .addGap(41, 41, 41)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblId)
                     .addComponent(cbIds, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -150,7 +180,7 @@ public class ConsultarConvocatoria extends javax.swing.JDialog {
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCurso))
-                .addGap(25, 25, 25))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -161,13 +191,18 @@ public class ConsultarConvocatoria extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Si se selecciona una convocatoria muestra todos sus datos.
+     *
+     * @param evt
+     */
     private void cbIdsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIdsItemStateChanged
         txtConvocatoria.setVisible(true);
         txtCurso.setVisible(true);
@@ -186,7 +221,19 @@ public class ConsultarConvocatoria extends javax.swing.JDialog {
         txtFecha.setText(conv.getFecha());
     }//GEN-LAST:event_cbIdsItemStateChanged
 
+    /**
+     * Vuelve a la ventana inicial.
+     *
+     * @param evt
+     */
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        this.dispose();
+        VMain vMain = new VMain(controlador);
+        vMain.setVisible(true);
+    }//GEN-LAST:event_btnVolverActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private excepciones.Button btnVolver;
     private javax.swing.JComboBox<String> cbIds;
     private javax.swing.JPanel fondo;
     private javax.swing.JSeparator jSeparator1;

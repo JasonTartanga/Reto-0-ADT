@@ -4,6 +4,7 @@ import clases.Dificultad;
 import clases.Enunciado;
 import controlador.Controlador;
 import excepciones.ErrCrear;
+import excepciones.ErrExtra;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,16 +17,20 @@ import jnafilechooser.api.JnaFileChooser;
  */
 public class CrearEnunciado extends javax.swing.JDialog {
 
-    private Controlador con;
+    private Controlador controlador;
     private String ruta = "";
 
     /**
      * Crea la ventana CrearEnunciado.
+     *
+     * @param parent la ventana padre.
+     * @param modal si es modal.
+     * @param controlador el controlador de la aplicacion.
      */
-    public CrearEnunciado(java.awt.Frame parent, boolean modal, Controlador con) {
+    public CrearEnunciado(java.awt.Frame parent, boolean modal, Controlador controlador) {
         super(parent, modal);
         initComponents();
-        this.con = con;
+        this.controlador = controlador;
         txtNivel.setSelectedIndex(-1);
     }
 
@@ -54,6 +59,7 @@ public class CrearEnunciado extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         btnLimpiar = new excepciones.Button();
         btnCrear = new excepciones.Button();
+        btnVolver = new excepciones.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -126,6 +132,13 @@ public class CrearEnunciado extends javax.swing.JDialog {
             }
         });
 
+        btnVolver.setText("<---");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
@@ -161,15 +174,19 @@ public class CrearEnunciado extends javax.swing.JDialog {
                                 .addGap(46, 46, 46)))))
                 .addGap(25, 25, 25))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(84, 84, 84))
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblId)
@@ -272,14 +289,27 @@ public class CrearEnunciado extends javax.swing.JDialog {
                         System.out.println("Seleciona un nivel --> " + txtNivel.getSelectedIndex());
                 }
 
-                con.crearEnunciado(enunciado);
+                controlador.crearEnunciado(enunciado);
                 btnLimpiarActionPerformed(evt);
 
             } catch (ErrCrear ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
+                ex.mostrarError();
+            } catch (ErrExtra ex) {
+                ex.mostrarError();
             }
         }
     }//GEN-LAST:event_btnCrearActionPerformed
+
+    /**
+     * Vuelve a la ventana de inicio.
+     *
+     * @param evt
+     */
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        this.dispose();
+        VMain vMain = new VMain(controlador);
+        vMain.setVisible(true);
+    }//GEN-LAST:event_btnVolverActionPerformed
 
     /**
      * Comprueba si todos los datos son validos o no.
@@ -314,6 +344,7 @@ public class CrearEnunciado extends javax.swing.JDialog {
     private excepciones.Button btnCrear;
     private excepciones.Button btnLimpiar;
     private excepciones.Button btnRuta;
+    private excepciones.Button btnVolver;
     private javax.swing.ButtonGroup btngDisponible;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel jLabel1;

@@ -3,11 +3,21 @@ package vista;
 import clases.Convocatoria;
 import controlador.Controlador;
 import excepciones.ErrCrear;
+import excepciones.ErrExtra;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CrearConvocatoria extends javax.swing.JDialog {
 
     private Controlador controlador;
 
+    /**
+     * Crea la ventana CrearConvocatoria.
+     *
+     * @param parent la ventana padre.
+     * @param modal si es modal.
+     * @param controlador el controlador de la aplicacion.
+     */
     public CrearConvocatoria(java.awt.Frame parent, boolean modal, Controlador controlador) {
         super(parent, modal);
         this.controlador = controlador;
@@ -32,6 +42,7 @@ public class CrearConvocatoria extends javax.swing.JDialog {
         txtCurso = new javax.swing.JTextField();
         btnCrear = new excepciones.Button();
         btnLimpiar = new excepciones.Button();
+        btnVolver = new excepciones.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(48, 51, 53));
@@ -88,6 +99,13 @@ public class CrearConvocatoria extends javax.swing.JDialog {
             }
         });
 
+        btnVolver.setText("<---");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
@@ -116,7 +134,9 @@ public class CrearConvocatoria extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(fondoLayout.createSequentialGroup()
-                        .addContainerGap(65, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(lblTitulo)))
                 .addGap(51, 51, 51))
         );
@@ -124,7 +144,9 @@ public class CrearConvocatoria extends javax.swing.JDialog {
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTitulo)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTitulo)
+                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -169,11 +191,15 @@ public class CrearConvocatoria extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Guarda la convocatoria en el fichero.
+     *
+     * @param evt
+     */
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         try {
             Convocatoria conv = new Convocatoria();
 
-            conv.setId(Integer.parseInt(txtId.getText()));
             conv.setConvocatoria(txtConvocatoria.getText());
             conv.setDescripcion(txtDescripcion.getText());
             conv.setFecha(txtFecha.getText());
@@ -183,20 +209,38 @@ public class CrearConvocatoria extends javax.swing.JDialog {
 
         } catch (ErrCrear ex) {
             ex.mostrarError();
+        } catch (ErrExtra ex) {
+            ex.mostrarError();
         }
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    /**
+     * Vacia todos los campos.
+     *
+     * @param evt
+     */
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-
         txtConvocatoria.setText("");
         txtDescripcion.setText("");
         txtFecha.setText("");
         txtCurso.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    /**
+     * Vuelve a la ventana del inicio.
+     *
+     * @param evt
+     */
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        this.dispose();
+        VMain vMain = new VMain(controlador);
+        vMain.setVisible(true);
+    }//GEN-LAST:event_btnVolverActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private excepciones.Button btnCrear;
     private excepciones.Button btnLimpiar;
+    private excepciones.Button btnVolver;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel lblConvocatoria;
     private javax.swing.JLabel lblCurso;

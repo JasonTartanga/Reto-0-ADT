@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo;
 
 import clases.Convocatoria;
@@ -10,6 +5,7 @@ import clases.Enunciado;
 import clases.UnidadDidactica;
 import excepciones.ErrConsultar;
 import excepciones.ErrCrear;
+import excepciones.ErrExtra;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,19 +16,27 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import recursos.MyObjectOutputStream;
 
 /**
+ * * Esta calse es la implementacion de la logica de negocio orientada a los
+ * ficheros.
  *
- * @author 2dam
+ * @author Niko.
  */
 public class ImplementacionFich implements DAO {
 
     File fich = new File("convocatorias.dat");
 
-    public void crearConvocatoria(Convocatoria con) {
+    /**
+     * Guarda en un fichero una convocatoria.
+     *
+     * @param conv la convocatoria que se va a guardar.
+     * @throws ErrExtra gestiona un error a la hora de conectarse con la base de
+     * datos.
+     */
+    @Override
+    public void crearConvocatoria(Convocatoria conv) throws ErrExtra {
         ObjectOutputStream oos = null;
 
         try {
@@ -42,25 +46,33 @@ public class ImplementacionFich implements DAO {
                 oos = new ObjectOutputStream(new FileOutputStream(fich));
             }
 
-            oos.writeObject(con);
+            oos.writeObject(conv);
 
         } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
+            throw new ErrExtra("fichero");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw new ErrExtra("fichero");
         } finally {
             try {
-                if (oos != null) {
-                    oos.flush();
-                    oos.close();
-                }
+                oos.flush();
+                oos.close();
             } catch (IOException ex) {
-                ex.printStackTrace();
+                throw new ErrExtra("fichero");
             }
         }
     }
 
-    public Convocatoria consultarConvocatoria(String id) {
+    /**
+     * Busca en el fichero la informacion de una convocatoria especifica.
+     *
+     * @param id el identificador unico de la convocatoria que se busca.
+     * @return la convocatoria que tenga la id que le hemos pasado.
+     * @throws ErrExtra gestiona un error a la hora de conectarse con la base de
+     * datos.
+     *
+     */
+    @Override
+    public Convocatoria consultarConvocatoria(String id) throws ErrExtra {
         ObjectInputStream ois = null;
         Convocatoria convocatoria = null;
         try {
@@ -80,38 +92,30 @@ public class ImplementacionFich implements DAO {
             }
 
         } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ImplementacionFich.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ImplementacionFich.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErrExtra("fichero");
+        } catch (ClassNotFoundException | IOException ex) {
+            throw new ErrExtra("fichero");
         } finally {
             try {
                 ois.close();
             } catch (IOException ex) {
-                Logger.getLogger(ImplementacionFich.class.getName()).log(Level.SEVERE, null, ex);
+                throw new ErrExtra("fichero");
             }
         }
         return convocatoria;
     }
 
+    /**
+     * Muestra todas las convocatorias del fichero.
+     *
+     * @return todas las convocatorias.
+     * @throws ErrExtra gestiona un error a la hora de conectarse con la base de
+     * datos.
+     * @throws ErrConsultar gestiona un error a la hora de consultar
+     * informacion.
+     */
     @Override
-    public void crearEnunciado(Enunciado enun) throws ErrCrear {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void crearUnidad(UnidadDidactica uni) throws ErrCrear {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Enunciado> listarEnunciados() throws ErrConsultar {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Convocatoria> listarConvocatorias() throws ErrConsultar {
+    public List<Convocatoria> listarConvocatorias() throws ErrConsultar, ErrExtra {
         List<Convocatoria> convocatorias = new ArrayList<>();
         ObjectInputStream ois = null;
 
@@ -131,19 +135,79 @@ public class ImplementacionFich implements DAO {
             }
 
         } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+            throw new ErrExtra("fichero");
+        } catch (IOException | ClassNotFoundException ex) {
+            throw new ErrExtra("fichero");
         } finally {
             try {
                 ois.close();
             } catch (IOException ex) {
-                Logger.getLogger(ImplementacionFich.class.getName()).log(Level.SEVERE, null, ex);
+                throw new ErrExtra("fichero");
             }
         }
         return convocatorias;
+    }
+
+    /**
+     * Guarda en la convocatoria el identificador unico del enunciado al que
+     * pertenece.
+     *
+     * @param convocatoria la convocatoria con todos sus datos.
+     * @throws ErrExtra gestiona un error a la hora de conectarse con la base de
+     * datos.
+     * @throws ErrCrear gestiona un error a la hora de guardar informacion.
+     */
+    @Override
+    public void asignarEnunciado(Convocatoria convocatoria) throws ErrCrear, ErrExtra {
+        File fich2 = new File("aux.dat");
+        ObjectOutputStream oos = null;
+        ObjectInputStream ois = null;
+
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(fich2));
+            ois = new ObjectInputStream(new FileInputStream(fich));
+            while (true) {
+                try {
+                    Convocatoria conv = (Convocatoria) ois.readObject();
+
+                    if (conv.getConvocatoria().equalsIgnoreCase(convocatoria.getConvocatoria())) {
+                        conv.setIdEnunciado(convocatoria.getIdEnunciado());
+                    }
+
+                    oos.writeObject(convocatoria);
+                } catch (EOFException e) {
+                    break;
+                }
+            }
+
+        } catch (IOException | ClassNotFoundException ex) {
+            throw new ErrExtra("fichero");
+        } finally {
+            try {
+                ois.close();
+                oos.flush();
+                oos.close();
+                fich.delete();
+                fich2.renameTo(fich);
+            } catch (IOException ex) {
+                throw new ErrExtra("fichero");
+            }
+        }
+    }
+
+    @Override
+    public void crearEnunciado(Enunciado enun) throws ErrCrear {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void crearUnidad(UnidadDidactica uni) throws ErrCrear {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Enunciado> listarEnunciados() throws ErrConsultar {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -153,11 +217,6 @@ public class ImplementacionFich implements DAO {
 
     @Override
     public void asignarUnidad(int unidad, int enunciado) throws ErrCrear {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void asignarEnunciado(int enunciado, int convocatoria) throws ErrCrear {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

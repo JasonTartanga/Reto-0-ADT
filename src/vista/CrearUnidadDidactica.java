@@ -1,34 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
 import clases.UnidadDidactica;
 import controlador.Controlador;
 import excepciones.ErrCrear;
+import excepciones.ErrExtra;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import modelo.DAO;
-import modelo.ImplementacionBD;
 
 /**
  *
- * @author 2dam
+ * @author Jason.
  */
 public class CrearUnidadDidactica extends javax.swing.JDialog {
 
-    private Controlador con;
+    private Controlador controlador;
 
     /**
-     * Creates new form UnidadDidactica
+     * Crea la ventana CrearUnidadDidactica.
+     *
+     * @param parent la ventana padre.
+     * @param modal si es modal.
+     * @param controlador el controlador de la aplicacion.
      */
-    public CrearUnidadDidactica(java.awt.Frame parent, boolean modal, Controlador con) {
+    public CrearUnidadDidactica(java.awt.Frame parent, boolean modal, Controlador controlador) {
         super(parent, modal);
         initComponents();
-        this.con = con;
+        this.controlador = controlador;
     }
 
     /**
@@ -53,6 +51,7 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
         txtAcronimo = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
         btnEnviar1 = new javax.swing.JButton();
+        btnVolver = new excepciones.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,35 +75,6 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
         jLabel6.setPreferredSize(new java.awt.Dimension(500, 260));
 
         txtDescripcion.setToolTipText("");
-        txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescripcionActionPerformed(evt);
-            }
-        });
-
-        txtEvaluacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEvaluacionActionPerformed(evt);
-            }
-        });
-
-        txtId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdActionPerformed(evt);
-            }
-        });
-
-        txtTitulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTituloActionPerformed(evt);
-            }
-        });
-
-        txtAcronimo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAcronimoActionPerformed(evt);
-            }
-        });
 
         btnLimpiar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnLimpiar.setText("Limpiar");
@@ -122,6 +92,13 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
             }
         });
 
+        btnVolver.setText("<---");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,7 +106,9 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
+                        .addContainerGap()
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(68, 68, 68)
@@ -170,8 +149,13 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -192,7 +176,7 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,26 +190,11 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
-
-    }//GEN-LAST:event_txtDescripcionActionPerformed
-
-    private void txtEvaluacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEvaluacionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEvaluacionActionPerformed
-
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
-
-    private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTituloActionPerformed
-
-    private void txtAcronimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAcronimoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAcronimoActionPerformed
-
+    /**
+     * Vacia los campos.
+     *
+     * @param evt
+     */
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         txtAcronimo.setText("");
         txtDescripcion.setText("");
@@ -234,6 +203,11 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
         txtTitulo.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    /**
+     * Guarda las Unidades didacticas en la base de datos.
+     *
+     * @param evt
+     */
     private void btnEnviar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviar1ActionPerformed
 
         try {
@@ -245,20 +219,33 @@ public class CrearUnidadDidactica extends javax.swing.JDialog {
             uni.setTitulo(txtTitulo.getText());
             uni.setEvaluacion(txtEvaluacion.getText());
             uni.setDescripcion(txtDescripcion.getText());
-            con.crearUnidad(uni);
+            controlador.crearUnidad(uni);
             btnLimpiarActionPerformed(evt);
 
         } catch (ErrCrear ex) {
             ex.mostrarError();
+        } catch (ErrExtra ex) {
+            ex.mostrarError();
         }
-
         JOptionPane.showMessageDialog(this, "La unidad didactica ha sido creada con exito");
 
     }//GEN-LAST:event_btnEnviar1ActionPerformed
 
+    /**
+     * Vuelve a la pantalla inicial.
+     *
+     * @param evt
+     */
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        this.dispose();
+        VMain vMain = new VMain(controlador);
+        vMain.setVisible(true);
+    }//GEN-LAST:event_btnVolverActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar1;
     private javax.swing.JButton btnLimpiar;
+    private excepciones.Button btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

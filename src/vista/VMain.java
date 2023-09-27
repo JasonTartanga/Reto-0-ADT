@@ -209,7 +209,9 @@ public class VMain extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAsignarUnidadActionPerformed
 
     private void btnAsignarEnunciadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarEnunciadoActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        AsignarEnunciado asignarEnunciado = new AsignarEnunciado(this, true, controlador);
+        asignarEnunciado.setVisible(true);
     }//GEN-LAST:event_btnAsignarEnunciadoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,21 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
 import clases.Convocatoria;
 import clases.Enunciado;
-import clases.UnidadDidactica;
 import controlador.Controlador;
 import excepciones.ErrConsultar;
 import excepciones.ErrCrear;
+import excepciones.ErrExtra;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Esta ventan permite al usuario asignar un enunciado a una convocatoria de
+ * examen.
  *
  * @author Jason.
  */
@@ -26,7 +23,11 @@ public class AsignarEnunciado extends javax.swing.JDialog {
     private List<Enunciado> enunciados;
 
     /**
-     * Creates new form AsignarUnidad
+     * Crea la ventana AsignarEnunciado.
+     *
+     * @param parent la ventana padre.
+     * @param modal si es modal.
+     * @param controlador el controlador de la aplicacion.
      */
     public AsignarEnunciado(java.awt.Frame parent, boolean modal, Controlador controlador) {
         super(parent, modal);
@@ -38,7 +39,7 @@ public class AsignarEnunciado extends javax.swing.JDialog {
             convocatorias = controlador.listarConvocatorias();
 
             for (Convocatoria convocatoria : convocatorias) {
-                cbConvocatoria.addItem(convocatoria.getId() + "");
+                cbConvocatoria.addItem(convocatoria.getConvocatoria() + "");
             }
 
             for (Enunciado enunciado : enunciados) {
@@ -49,6 +50,8 @@ public class AsignarEnunciado extends javax.swing.JDialog {
 
         } catch (ErrConsultar ex) {
             ex.mostrarError();
+        } catch (ErrExtra ex) {
+            Logger.getLogger(AsignarEnunciado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -68,6 +71,7 @@ public class AsignarEnunciado extends javax.swing.JDialog {
         lblEnunciado = new javax.swing.JLabel();
         cbEnunciado = new javax.swing.JComboBox<>();
         btnAsignar = new excepciones.Button();
+        btnVolver = new excepciones.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -96,35 +100,48 @@ public class AsignarEnunciado extends javax.swing.JDialog {
             }
         });
 
+        btnVolver.setText("<---");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTitulo)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblConvocatoria)
-                                    .addComponent(lblEnunciado))
-                                .addGap(58, 58, 58)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbEnunciado, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbConvocatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(44, 44, 44))
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTitulo)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(154, 154, 154))))
+                        .addGap(0, 21, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblConvocatoria)
+                            .addComponent(lblEnunciado))
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbEnunciado, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbConvocatoria, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(157, 157, 157)
+                .addComponent(btnAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(lblTitulo)
-                .addGap(40, 40, 40)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTitulo))
+                .addGap(41, 41, 41)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEnunciado)
                     .addComponent(cbEnunciado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -132,9 +149,9 @@ public class AsignarEnunciado extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbConvocatoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblConvocatoria))
-                .addGap(97, 97, 97)
+                .addGap(53, 53, 53)
                 .addComponent(btnAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,26 +162,45 @@ public class AsignarEnunciado extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Si pulsa el boton asignara un examen a una convocatoria de examen.
+     *
+     * @param evt
+     */
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
         try {
-            int convocatoria = convocatorias.get(cbConvocatoria.getSelectedIndex()).getId();
-            int enunciado = enunciados.get(cbEnunciado.getSelectedIndex()).getId();
-            controlador.asignarUnidad(convocatoria, enunciado);
+            Convocatoria convocatoria = convocatorias.get(cbConvocatoria.getSelectedIndex());
+            convocatoria.setIdEnunciado(enunciados.get(cbEnunciado.getSelectedIndex()).getId());
+            controlador.asignarEnunciado(convocatoria);
+
         } catch (ErrCrear ex) {
+            ex.mostrarError();
+        } catch (ErrExtra ex) {
             ex.mostrarError();
         }
     }//GEN-LAST:event_btnAsignarActionPerformed
 
+    /**
+     * Vuelve a la pantalla inicial.
+     *
+     * @param evt
+     */
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        this.dispose();
+        VMain vMain = new VMain(controlador);
+        vMain.setVisible(true);
+    }//GEN-LAST:event_btnVolverActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private excepciones.Button btnAsignar;
+    private excepciones.Button btnVolver;
     private javax.swing.JComboBox<String> cbConvocatoria;
     private javax.swing.JComboBox<String> cbEnunciado;
     private javax.swing.JPanel jPanel1;

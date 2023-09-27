@@ -3,14 +3,12 @@ package vista;
 import clases.Enunciado;
 import controlador.Controlador;
 import excepciones.ErrConsultar;
+import excepciones.ErrExtra;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  * Esta ventana permite al usuario consultar y visualizar los Enuciados.
@@ -23,7 +21,11 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
     private Controlador controlador;
 
     /**
-     * Crea la ventana de ConsularEnunciado.
+     * Crea la ventana AsignarUnidad
+     *
+     * @param parent la ventana padre.
+     * @param modal si es modal.
+     * @param controlador el controlador de la aplicacion.
      */
     public ConsultarEnunciado(java.awt.Frame parent, boolean modal, Controlador controlador) {
         super(parent, modal);
@@ -38,7 +40,9 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
             }
 
         } catch (ErrConsultar ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            ex.mostrarError();
+        } catch (ErrExtra ex) {
+            ex.mostrarError();
         }
     }
 
@@ -59,6 +63,7 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
         scroll = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
         btnVisualizarEnunciado = new excepciones.Button();
+        btnVolver = new excepciones.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -67,7 +72,7 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
         lblTitulo.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(227, 227, 227));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Consultar Enunciado");
+        lblTitulo.setText("CONSULTAR ENUNCIADO");
 
         idComboBox.setFont(new java.awt.Font("Dialog", 0, 16)); // NOI18N
         idComboBox.addItemListener(new java.awt.event.ItemListener() {
@@ -93,6 +98,13 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
             }
         });
 
+        btnVolver.setText("<---");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -102,13 +114,20 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblId)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(idComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(scroll, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblId)
+                                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(0, 45, Short.MAX_VALUE)
+                                        .addComponent(idComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblTitulo)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnVisualizarEnunciado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -117,9 +136,11 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(lblTitulo)
-                .addGap(25, 25, 25)
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTitulo))
+                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblId))
@@ -181,8 +202,20 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnVisualizarEnunciadoActionPerformed
 
+    /**
+     * Vuelve al inicio de la aplicacion.
+     *
+     * @param evt
+     */
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        this.dispose();
+        VMain vMain = new VMain(controlador);
+        vMain.setVisible(true);
+    }//GEN-LAST:event_btnVolverActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private excepciones.Button btnVisualizarEnunciado;
+    private excepciones.Button btnVolver;
     private javax.swing.JComboBox<String> idComboBox;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator;
