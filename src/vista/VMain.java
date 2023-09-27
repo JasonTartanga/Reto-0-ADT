@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
 import controlador.Controlador;
 
 /**
+ * Esta ventana permite acceder al resto de ventanas.
  *
  * @author Jason.
  */
@@ -16,7 +12,7 @@ public class VMain extends javax.swing.JFrame {
     private Controlador controlador;
 
     /**
-     * Creates new form VMain
+     * Crea la ventana VMain
      *
      * @param controlador
      */
@@ -168,46 +164,86 @@ public class VMain extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Abre la ventana CrearEnunciado.
+     *
+     * @param evt
+     */
     private void btnCrearEnunciadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearEnunciadoActionPerformed
         this.dispose();
         CrearEnunciado crearEnunciado = new CrearEnunciado(this, true, controlador);
         crearEnunciado.setVisible(true);
     }//GEN-LAST:event_btnCrearEnunciadoActionPerformed
 
+    /**
+     * Abre la ventana CrearUnidadDidactica.
+     *
+     * @param evt
+     */
     private void btnCrearUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUnidadActionPerformed
         this.dispose();
         CrearUnidadDidactica unidadDidactica = new CrearUnidadDidactica(this, true, controlador);
         unidadDidactica.setVisible(true);
     }//GEN-LAST:event_btnCrearUnidadActionPerformed
 
+    /**
+     * Abre la ventana CrearConvocatoria.
+     *
+     * @param evt
+     */
     private void btnCrearConvocatoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearConvocatoriaActionPerformed
         this.dispose();
         CrearConvocatoria crearConvocatoria = new CrearConvocatoria(this, true, controlador);
         crearConvocatoria.setVisible(true);
     }//GEN-LAST:event_btnCrearConvocatoriaActionPerformed
 
+    /**
+     * Abre la ventana ConsultarEnunciado.
+     *
+     * @param evt
+     */
     private void btnConsultarEnunciadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarEnunciadoActionPerformed
         this.dispose();
         ConsultarEnunciado consultarEnunciado = new ConsultarEnunciado(this, true, controlador);
         consultarEnunciado.setVisible(true);
     }//GEN-LAST:event_btnConsultarEnunciadoActionPerformed
 
+    /**
+     * Abre la ventana ConsultarUnidad.
+     *
+     * @param evt
+     */
     private void btnConsultarUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarUnidadActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnConsultarUnidadActionPerformed
 
+    /**
+     * Abre la ventana ConsultarConvocatoria .
+     *
+     * @param evt
+     */
     private void btnConsultarConvocatoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarConvocatoriaActionPerformed
         this.dispose();
         ConsultarConvocatoria consultarConvocatoria = new ConsultarConvocatoria(this, true, controlador);
         consultarConvocatoria.setVisible(true);
     }//GEN-LAST:event_btnConsultarConvocatoriaActionPerformed
 
+    /**
+     * Abre la ventana AsignarUnidad.
+     *
+     * @param evt
+     */
     private void btnAsignarUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarUnidadActionPerformed
         this.dispose();
         AsignarUnidad asignarUnidad = new AsignarUnidad(this, true, controlador);
         asignarUnidad.setVisible(true);
     }//GEN-LAST:event_btnAsignarUnidadActionPerformed
 
+    /**
+     * Abre la ventana AsignarEnunciado.
+     *
+     * @param evt
+     */
     private void btnAsignarEnunciadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarEnunciadoActionPerformed
         this.dispose();
         AsignarEnunciado asignarEnunciado = new AsignarEnunciado(this, true, controlador);

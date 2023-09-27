@@ -194,11 +194,7 @@ public class ConsultarEnunciado extends javax.swing.JDialog {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("El archivo no existe.");
             }
-        } else {
-            System.out.println("La apertura de archivos no es compatible en este sistema.");
         }
     }//GEN-LAST:event_btnVisualizarEnunciadoActionPerformed
 

@@ -113,7 +113,6 @@ public class ImplementacionBD implements DAO {
             stmt.setString(3, uni.getTitulo());
             stmt.setString(4, uni.getEvaluacion());
             stmt.setString(5, uni.getDescripcion());
-            System.out.println(stmt);
             stmt.execute();
 
         } catch (SQLException ex) {

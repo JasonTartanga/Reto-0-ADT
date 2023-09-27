@@ -127,7 +127,6 @@ public class ImplementacionFich implements DAO {
                 try {
                     conv = (Convocatoria) ois.readObject();
                     convocatorias.add(conv);
-                    System.out.println(conv.toString());
 
                 } catch (EOFException e) {
                     break;

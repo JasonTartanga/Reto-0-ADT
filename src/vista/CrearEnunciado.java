@@ -286,7 +286,7 @@ public class CrearEnunciado extends javax.swing.JDialog {
                         enunciado.setNivel(Dificultad.BAJA);
                         break;
                     default:
-                        System.out.println("Seleciona un nivel --> " + txtNivel.getSelectedIndex());
+                        break;
                 }
 
                 controlador.crearEnunciado(enunciado);
@@ -324,17 +324,14 @@ public class CrearEnunciado extends javax.swing.JDialog {
 
         } catch (NumberFormatException e) {
             valido = false;
-            System.out.println("Eso no es un numero");
         }
 
         if (txtNivel.getSelectedIndex() == -1) {
             valido = false;
-            System.out.println("Elige un nivel");
         }
 
         if (!rdbtnSi.isSelected() == !rdbtnNo.isSelected()) {
             valido = false;
-            System.out.println("Es disponible?");
         }
 
         return valido;
